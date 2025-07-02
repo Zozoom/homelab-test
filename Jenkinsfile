@@ -63,10 +63,16 @@ spec:
                 }
             }
         }
+        stage('Debug ls') {
+            steps {
+                sh 'ls -lah'
+                sh 'ls -lah charts || true'
+            }
+        }
         stage('Helm deploy') {
             steps {
                 container('helm') {
-                    sh 'helm upgrade --install homelab-test ./homelab-test/charts --set image.repository=homelab-test --set image.tag=latest --set image.pullPolicy=Never --namespace homelab --create-namespace'
+                    sh 'helm upgrade --install homelab-test ./charts --set image.repository=homelab-test --set image.tag=latest --set image.pullPolicy=Never --namespace homelab --create-namespace'
                 }
             }
         }

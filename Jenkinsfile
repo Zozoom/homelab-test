@@ -17,6 +17,7 @@ spec:
       image: docker:25.0.3-dind
       securityContext:
         privileged: true
+        runAsUser: 0
       volumeMounts:
         - name: containerd-sock
           mountPath: /run/containerd/containerd.sock

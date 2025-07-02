@@ -23,11 +23,6 @@ spec:
       command:
       - cat
       tty: true
-    - name: ctr
-      image: ghcr.io/containerd/ctr:latest
-      command:
-      - cat
-      tty: true
 """
         }
     }
@@ -48,7 +43,7 @@ spec:
         }
         stage('Load image to containerd') {
             steps {
-                container('ctr') {
+                container('dind') {
                     sh 'docker save homelab-test:latest | ctr -n k8s.io images import -'
                 }
             }

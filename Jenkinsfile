@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'maven-agent'
+            label 'homelab-agent'
             defaultContainer 'maven'
             yaml """
 apiVersion: v1
@@ -17,12 +17,26 @@ spec:
       image: docker:25.0.3-dind
       securityContext:
         privileged: true
+      volumeMounts:
+        - name: containerd-sock
+          mountPath: /run/containerd/containerd.sock
+        - name: containerd-lib
+          mountPath: /var/lib/rancher/k3s/agent/containerd
       tty: true
     - name: helm
       image: alpine/helm:3.14.4
       command:
       - cat
       tty: true
+  volumes:
+    - name: containerd-sock
+      hostPath:
+        path: /run/containerd/containerd.sock
+        type: Socket
+    - name: containerd-lib
+      hostPath:
+        path: /var/lib/rancher/k3s/agent/containerd
+        type: Directory
 """
         }
     }

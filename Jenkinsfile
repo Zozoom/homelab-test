@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build Spring Boot') {
             steps {
-                sh './mvnw clean package -DskipTests'
+                sh './mvn clean package -DskipTests'
             }
         }
         stage('Build Docker image') {
